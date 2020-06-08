@@ -1,6 +1,7 @@
 let controller;
 let slideScene;
 let pageScene;
+let detailScene;
 
 function animateSlides() {
   //init controller
@@ -20,7 +21,7 @@ function animateSlides() {
     slideTl.fromTo(revealImg, { x: "0%" }, { x: "100%" });
     slideTl.fromTo(img, { scale: 2 }, { scale: 1 }, "-=1");
     slideTl.fromTo(revealText, { x: "0%" }, { x: "100%" }, "-=0.75");
-    slideTl.fromTo(nav, { y: "-100%" }, { y: "0%" }, "-=0.3");
+
     //create a scene
     slideScene = new ScrollMagic.Scene({
       triggerElement: slide,
@@ -119,12 +120,11 @@ barba.init({
       namespace: "fashion",
       beforeEnter() {
         logo.href = "../index.html";
-        gsap.fromTo(
-          ".nav-header",
-          1,
-          { y: "100%" },
-          { y: "0%", ease: "power2.inOut" },
-        );
+        detailAnimation();
+      },
+      beforeLeave() {
+        controller.destroy();
+        detailScene.destroy();
       },
     },
   ],
@@ -152,13 +152,50 @@ barba.init({
           ".swipe",
           1,
           { x: "0%" },
-          { x: "100%", stagger: 0.5, onComplete: done },
+          { x: "100%", stagger: 0.2, onComplete: done },
         );
         tl.fromTo(next.container, 1, { opacity: 0 }, { opacity: 1 });
+        tl.fromTo(
+          ".nav-header",
+          1,
+          { y: "-100%" },
+          { y: "0%", ease: "power2.inOut" },
+          "-=1.5",
+        );
       },
     },
   ],
 });
+
+function detailAnimation() {
+  controller = new ScrollMagic.Controller();
+  const slides = document.querySelectorAll(".detail-slide");
+
+  slides.forEach((slide, index, slides) => {
+    const slideTl = gsap.timeline({ defaults: { duration: 1 } });
+    let nextSlide = slides.length - 1 === index ? "end" : slides[index + 1];
+    const nextImg = nextSlide.querySelector("img");
+    slideTl.fromTo(slide, { opacity: 1 }, { opacity: 0 });
+    slideTl.fromTo(nextSlide, { opacity: 0 }, { opacity: 1 }, "-=1");
+    slideTl.fromTo(nextImg, { x: "50%" }, { x: "0%" });
+    //scene
+    detailScene = new ScrollMagic.Scene({
+      triggerElement: slide,
+      duration: "100%",
+      triggerHook: 0,
+    })
+
+      .addIndicators({
+        colorStart: "white",
+        colorTrigger: "white",
+        name: "detailScene",
+      })
+      .setPin(slide, { pushFollowers: false })
+      .setTween(slideTl)
+      .addTo(controller);
+  });
+}
+
 burger.addEventListener("click", navToggle);
 window.addEventListener("mousemove", cursor);
 window.addEventListener("mouseover", activeCursor);

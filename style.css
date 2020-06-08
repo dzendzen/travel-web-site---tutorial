@@ -28,6 +28,7 @@ main {
   margin: auto;
   padding: 2rem 0;
   z-index: 2;
+  position: relative;
 }
 .line1,
 .line2 {
@@ -276,4 +277,76 @@ body.hide {
 .swipe3 {
   background: rgb(226, 111, 66);
   z-index: 3;
+}
+
+@media screen and (max-width: 768px) {
+  main {
+    width: 100%;
+    margin: 0;
+  }
+  .slide {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
+  .hero-desc {
+    padding: 0;
+  }
+  .hero-desc h2 {
+    font-size: 1.6rem;
+    padding: 1rem 0;
+  }
+  .hero-desc p {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    text-align: center;
+  }
+  .hero-img {
+    /* width: 100%;
+    height: auto; */
+    padding-top: 2rem;
+  }
+  .explore {
+    width: 60%;
+    margin: auto;
+  }
+  .detail-slide {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+  .fashion-text p {
+    margin-bottom: 3rem;
+    padding: 0;
+    font-size: 1rem;
+  }
+  .fashion-text h1 {
+    margin: 1rem;
+    padding: 0;
+    font-size: 2rem;
+  }
+  .fashion-nr {
+    font-size: 5rem;
+    top: 0;
+    left: 0;
+  }
+  .nav-bar {
+    display: block;
+  }
+  .nav-links {
+    padding-top: 8rem;
+    margin: 0;
+    font-size: 2rem;
+    text-align: center;
+  }
+  .contact h2 {
+    font-size: 3rem;
+    text-align: center;
+  }
+  .contact p {
+    padding: 2rem;
+    font-size: 1.2rem;
+  }
 }
